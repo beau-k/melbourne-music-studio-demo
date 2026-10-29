@@ -2,7 +2,8 @@
 
 Public portfolio demo for a **Melbourne music studio** with an interactive lesson scheduler UI (Pro pricing tier).
 
-**Live demo:** _(add Vercel URL after deploy)_
+**Live demo:** https://melbourne-music-studio-demo.vercel.app/  
+**GitHub:** https://github.com/beau-k/melbourne-music-studio-demo
 
 ## Stack
 
