@@ -1,0 +1,109 @@
+---
+/**
+ * Demo-only lesson scheduler. Client script simulates slot selection + confirmation.
+ * No network calls, no persistence. See docs/MAKE-IT-REAL-BOOKING.md for production paths.
+ */
+const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const times = ['9:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+
+/** Sparse availability map for a believable demo week */
+const open: Record<string, string[]> = {
+	Mon: ['10:00', '11:00', '14:00', '16:00'],
+	Tue: ['9:00', '13:00', '15:00', '17:00'],
+	Wed: ['10:00', '11:00', '14:00', '15:00'],
+	Thu: ['9:00', '11:00', '16:00', '17:00'],
+	Fri: ['10:00', '13:00', '14:00', '15:00'],
+	Sat: ['9:00', '10:00', '11:00'],
+};
+---
+
+<section id="schedule" class="scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8" aria-labelledby="schedule-heading">
+	<div class="mx-auto max-w-6xl">
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-amber-300/80">Scheduler</p>
+		<h2 id="schedule-heading" class="mt-2 font-display text-4xl text-white sm:text-5xl">Book a lesson slot</h2>
+		<p class="mt-3 max-w-2xl text-stone-300">
+			Interactive demo — pick an open slot to see the confirmation flow. Nothing is saved or emailed.
+		</p>
+
+		<div class="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/10 px-3 py-1 text-xs font-medium text-amber-200">
+			Demo mode · no live bookings
+		</div>
+
+		<div class="mt-8 overflow-x-auto rounded-2xl border border-white/10 bg-white/[0.03]">
+			<table class="min-w-full border-collapse text-sm" id="scheduler-grid">
+				<thead>
+					<tr class="border-b border-white/10 text-left text-stone-400">
+						<th class="px-3 py-3 font-medium">Time</th>
+						{days.map((day) => <th class="px-3 py-3 font-medium">{day}</th>)}
+					</tr>
+				</thead>
+				<tbody>
+					{
+						times.map((time) => (
+							<tr class="border-b border-white/5">
+								<td class="whitespace-nowrap px-3 py-2 text-stone-500">{time}</td>
+								{days.map((day) => {
+									const available = open[day]?.includes(time);
+									return (
+										<td class="px-2 py-1.5">
+											{available ? (
+												<button
+													type="button"
+													class="slot-btn w-full rounded-md bg-amber-400/15 px-2 py-2 text-left text-amber-100 transition hover:bg-amber-400/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+													data-day={day}
+													data-time={time}
+												>
+													Open
+												</button>
+											) : (
+												<span class="block rounded-md px-2 py-2 text-stone-600">—</span>
+											)}
+										</td>
+									);
+								})}
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<dialog
+			id="booking-dialog"
+			class="fixed left-1/2 top-1/2 z-50 w-[min(100%,24rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/10 bg-[#161c19] p-6 text-stone-100 shadow-2xl backdrop:bg-black/60"
+		>
+			<form method="dialog" class="space-y-4">
+				<p class="text-xs font-semibold uppercase tracking-wider text-amber-300/80">Demo confirmation</p>
+				<h3 class="font-display text-2xl text-white">Slot selected</h3>
+				<p id="booking-summary" class="text-sm text-stone-300"></p>
+				<p class="text-xs text-stone-500">
+					On a real site this would create a booking, send email, and optionally take a deposit.
+				</p>
+				<div class="flex gap-2 pt-2">
+					<button value="cancel" class="flex-1 rounded-lg border border-white/20 px-3 py-2 text-sm font-semibold text-white hover:bg-white/5">
+						Close
+					</button>
+					<button value="ok" class="flex-1 rounded-lg bg-amber-400 px-3 py-2 text-sm font-bold text-stone-950 hover:bg-amber-300">
+						Looks good
+					</button>
+				</div>
+			</form>
+		</dialog>
+	</div>
+</section>
+
+<script>
+	const dialog = document.getElementById('booking-dialog') as HTMLDialogElement | null;
+	const summary = document.getElementById('booking-summary');
+
+	document.querySelectorAll<HTMLButtonElement>('.slot-btn').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const day = btn.dataset.day;
+			const time = btn.dataset.time;
+			if (summary) {
+				summary.textContent = `You picked ${day} at ${time}. This is a UI demo — no booking was created.`;
+			}
+			dialog?.showModal();
+		});
+	});
+</script>

@@ -1,0 +1,96 @@
+---
+import DemoFooter from '../components/DemoFooter.astro';
+import Scheduler from '../components/Scheduler.astro';
+import Layout from '../layouts/Layout.astro';
+import { lessons, site, teachers } from '../lib/site';
+---
+
+<Layout>
+	<section id="hero" class="relative isolate overflow-hidden px-4 pb-20 pt-16 sm:px-6 sm:pt-24 lg:px-8">
+		<div class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(251,191,36,0.18),_transparent_55%)]"></div>
+		<div class="relative mx-auto max-w-6xl">
+			<p class="text-xs font-semibold uppercase tracking-[0.2em] text-amber-300/80">{site.suburb} · music lessons</p>
+			<h1 class="mt-4 max-w-3xl font-display text-5xl leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+				{site.name}
+			</h1>
+			<p class="mt-5 max-w-xl text-base leading-relaxed text-stone-300 sm:text-lg">
+				{site.tagline}. Book a trial lesson, meet your teacher, and practice in rooms built for volume.
+			</p>
+			<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+				<a href="#schedule" class="inline-flex items-center justify-center rounded-lg bg-amber-400 px-6 py-3.5 text-sm font-bold text-stone-950 hover:bg-amber-300">
+					Open the scheduler
+				</a>
+				<a href="#lessons" class="inline-flex items-center justify-center rounded-lg border border-white/20 px-6 py-3.5 text-sm font-semibold text-white hover:bg-white/5">
+					Lesson packages
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section id="lessons" class="scroll-mt-24 border-t border-white/10 px-4 py-20 sm:px-6 lg:px-8" aria-labelledby="lessons-heading">
+		<div class="mx-auto max-w-6xl">
+			<h2 id="lessons-heading" class="font-display text-4xl text-white sm:text-5xl">Lessons & rooms</h2>
+			<p class="mt-3 max-w-2xl text-stone-300">Clear package pricing helps parents and adult learners decide before they call.</p>
+			<ul class="mt-10 grid gap-4 sm:grid-cols-2">
+				{
+					lessons.map((lesson) => (
+						<li class="rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+							<div class="flex items-baseline justify-between gap-4">
+								<h3 class="text-lg font-semibold text-white">{lesson.name}</h3>
+								<p class="shrink-0 text-sm font-bold text-amber-300">{lesson.price}</p>
+							</div>
+							<p class="mt-2 text-sm text-stone-400">{lesson.blurb}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section id="teachers" class="scroll-mt-24 border-t border-white/10 px-4 py-20 sm:px-6 lg:px-8" aria-labelledby="teachers-heading">
+		<div class="mx-auto max-w-6xl">
+			<h2 id="teachers-heading" class="font-display text-4xl text-white sm:text-5xl">Teachers</h2>
+			<ul class="mt-10 grid gap-6 sm:grid-cols-3">
+				{
+					teachers.map((teacher) => (
+						<li class="rounded-2xl border border-white/10 p-6">
+							<p class="font-display text-2xl text-amber-100">{teacher.name}</p>
+							<p class="mt-1 text-sm font-semibold text-amber-300/90">{teacher.focus}</p>
+							<p class="mt-3 text-sm text-stone-400">{teacher.bio}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<Scheduler />
+
+	<section id="faq" class="scroll-mt-24 border-t border-white/10 px-4 py-20 sm:px-6 lg:px-8" aria-labelledby="faq-heading">
+		<div class="mx-auto max-w-3xl">
+			<h2 id="faq-heading" class="font-display text-4xl text-white">FAQ</h2>
+			<dl class="mt-8 space-y-6">
+				<div>
+					<dt class="font-semibold text-white">Do I need my own instrument?</dt>
+					<dd class="mt-1 text-sm text-stone-400">Studio pianos and amps are available. Bring your guitar or borrow a loaner for the first lesson.</dd>
+				</div>
+				<div>
+					<dt class="font-semibold text-white">Is parking available?</dt>
+					<dd class="mt-1 text-sm text-stone-400">Street parking on Sydney Rd after 6pm; tram stop outside.</dd>
+				</div>
+				<div>
+					<dt class="font-semibold text-white">Is this booking system real?</dt>
+					<dd class="mt-1 text-sm text-stone-400">
+						No — this is a UI demo for portfolio purposes. See the Make-it-real docs in the repo for Cal.com or custom API options.
+					</dd>
+				</div>
+			</dl>
+			<p class="mt-10 text-sm text-stone-400">
+				Questions? Call <a class="text-amber-200 underline-offset-2 hover:underline" href={site.phoneHref}>{site.phoneDisplay}</a>
+				(demo number) or email {site.email}.
+			</p>
+		</div>
+	</section>
+
+	<DemoFooter />
+</Layout>

@@ -1,0 +1,43 @@
+---
+import { builder, site } from '../lib/site';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-white/10 bg-[#0a0e0c]" aria-label="Demo notice">
+	<div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+		<div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-6 sm:px-8 sm:py-7">
+			<p class="text-xs font-semibold uppercase tracking-wider text-amber-300/90">Sample website · Pro package</p>
+			<p class="mt-2 font-display text-2xl text-white">
+				Demonstration site for {site.name} — not a live studio.
+			</p>
+			<p class="mt-2 max-w-2xl text-sm leading-relaxed text-stone-300">
+				Shows a Pro-tier interactive lesson scheduler UI. Bookings here are simulated only — see
+				<code class="rounded bg-white/10 px-1.5 py-0.5 text-amber-100">docs/MAKE-IT-REAL-BOOKING.md</code>
+				for how to wire real scheduling, email, and payments.
+			</p>
+			<div class="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+				<div>
+					<p class="text-sm font-medium text-white">Need a booking-capable site for your studio?</p>
+					<p class="mt-1 text-sm text-stone-400">Happy to scope Cal.com embed or a custom slot system.</p>
+				</div>
+				<div class="flex flex-col gap-2 sm:items-end">
+					<a
+						href={`mailto:${builder.email}?subject=${encodeURIComponent('Website enquiry — music studio Pro demo')}`}
+						class="inline-flex items-center justify-center rounded-lg bg-amber-400 px-4 py-2.5 text-sm font-bold text-stone-950 transition hover:bg-amber-300"
+					>
+						Email {builder.name}
+					</a>
+					<p class="text-sm text-stone-400">
+						<a class="font-medium text-amber-200 underline-offset-2 hover:underline" href={builder.phoneHref}>
+							{builder.phoneDisplay}
+						</a>
+						<span class="text-stone-600"> · </span>
+						<a class="underline-offset-2 hover:underline" href={`mailto:${builder.email}`}>{builder.email}</a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<p class="mt-6 text-center text-xs text-stone-500">&copy; {currentYear} Demo by {builder.name}. Sample content only.</p>
+	</div>
+</footer>
